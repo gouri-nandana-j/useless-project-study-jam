@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple To-Do App</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md">
+        <!-- Form to add a new task -->
+        <form id="taskForm" class="bg-white p-6 rounded-lg shadow-md w-full">
+            <h1 class="text-2xl font-semibold mb-4 text-gray-700">Create a Task</h1>
+
+            <label for="taskInput" class="block text-sm font-medium text-gray-600 mb-1">Task</label>
+            <input
+                type="text"
+                id="taskInput"
+                class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter your task here..."
+                required
+                autocomplete="off"
+            />
+
+            <button
+                type="submit"
+                class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+            >
+                Add Task
+            </button>
+        </form>
+
+        <!-- Task List Container -->
+        <div class="bg-white p-6 rounded-lg shadow-md w-full mt-6">
+             <h2 class="text-xl font-semibold mb-4 text-gray-700">Your Tasks</h2>
+             <ul id="taskList" class="space-y-2">
+                <!-- Tasks will be added here by JavaScript -->
+             </ul>
+        </div>
+    </div>
+
+    <script>
+        // Get references to the DOM elements
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+
+        // Listen for the form submission
+        taskForm.addEventListener('submit', function(event) {
+            // Prevent the default form behavior (page reload)
+            event.preventDefault();
+
+            // Get the text from the input field and remove extra spaces
+            const taskText = taskInput.value.trim();
+
+            // If the input isn't empty, add the task
+            if (taskText !== '') {
+                addTask(taskText);
+                // Clear the input field for the next task
+                taskInput.value = '';
+                // Put the cursor back in the input field
+                taskInput.focus();
+            }
+        });
+
+        // Function to add a new task to the list
+        function addTask(text) {
+            // Create a new list item
+            const li = document.createElement('li');
+            li.textContent = text;
+            li.className = 'bg-gray-100 p-3 rounded-md text-gray-800 cursor-pointer hover:bg-gray-200';
+            
+            // Add a click event to the task to remove it (as a simple way to mark done)
+            li.addEventListener('click', function() {
+                li.remove();
+            });
+
+            // Add the new task to the top of the list
+            taskList.prepend(li);
+        }
+    </script>
+
+</body>
+</html>
